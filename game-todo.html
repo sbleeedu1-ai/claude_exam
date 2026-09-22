@@ -199,14 +199,15 @@ h1{font-family:"Manrope",sans-serif;font-weight:800;font-size:clamp(26px,5vw,36p
   </section>
 
   <div class="foot">
-    <span class="warn">안내</span>
-    항목 구성은 커뮤니티 공략(2026년 상반기~9월 기준)을 바탕으로 정리했으며, 패치로 콘텐츠명이나 초기화 조건이 바뀔 수 있습니다. 이환의 정확한 일일 초기화 시각은 출처에서 확인하지 못해 자정 기준으로 동작하며, 실제 게임 내 시각과 다를 수 있습니다.
+    <span class="warn">안내 (2026.09.22 재검토)</span>
+    이전 버전 항목 구성에 오류 지적을 받아 <b>2026년 3월 이전 자료를 모두 배제</b>하고 재검색했습니다. 명조는 game8·GameVika 등 2026년 기준 영문 위키와 국내 8월 자료를 교차 확인했고, 이환·마비노기 모바일은 2026년 5월~9월 사이에 작성된 전용 숙제 트래커·가이드 글을 기준으로 교체했습니다. 그래도 패치로 콘텐츠명이나 초기화 조건이 바뀔 수 있습니다. 이환의 정확한 일일 초기화 시각은 출처에서 확인하지 못해 자정 기준으로 동작하며, 실제 게임 내 시각과 다를 수 있습니다.
     <ul>
-      <li><a href="https://www.fmkorea.com/9060248173" target="_blank" rel="noopener">에펨코리아 — 명조 주기별 루틴 체크리스트</a></li>
-      <li><a href="https://vortexgaming.io/postdetail/330326" target="_blank" rel="noopener">Vortex Gaming — 명조 주간 숙제 가이드</a></li>
-      <li><a href="https://www.gameple.co.kr/news/articleView.html?idxno=215539" target="_blank" rel="noopener">게임플 — 이환 최소 일일 숙제 루틴</a></li>
-      <li><a href="https://www.inven.co.kr/board/nte/6518/77" target="_blank" rel="noopener">이환 인벤 — 주간 숙제 정리</a></li>
-      <li><a href="https://www.inven.co.kr/board/mabimo/6366/105" target="_blank" rel="noopener">마비노기 모바일 인벤 — 일일 &amp; 주간 숙제 정리</a></li>
+      <li><a href="https://game8.co/games/Wuthering-Waves/archives/455868" target="_blank" rel="noopener">Game8 — Wuthering Waves Dailies</a></li>
+      <li><a href="https://gamevika.com/en/wuwa/wiki/daily-checklist" target="_blank" rel="noopener">GameVika — WuWa Daily and Weekly Checklist</a></li>
+      <li><a href="https://namu.wiki/w/%EB%AA%85%EC%A1%B0:%20%EC%9B%8C%EB%8D%94%EB%A7%81%20%EC%9B%A8%EC%9D%B4%EB%B8%8C/%EC%A3%BC%EA%B8%B0%EC%A0%81%20%EB%8F%84%EC%A0%84" target="_blank" rel="noopener">나무위키 — 명조 워더링 웨이브/주기적 도전</a></li>
+      <li><a href="https://www.inven.co.kr/board/nte/6518/135" target="_blank" rel="noopener">이환 인벤 — 일일/주간 항목 정리(2026.05.15)</a></li>
+      <li><a href="https://www.gameple.co.kr/news/articleView.html?idxno=215705" target="_blank" rel="noopener">게임플 — 이환 숨은 일일 콘텐츠 정리(2026.05.27)</a></li>
+      <li><a href="https://mobinogi.info/todo-list" target="_blank" rel="noopener">모빈포 — 마비노기 모바일 일일 숙제 트래커</a></li>
     </ul>
   </div>
 </div>
@@ -215,56 +216,55 @@ h1{font-family:"Manrope",sans-serif;font-weight:800;font-size:clamp(26px,5vw,36p
 (function(){
   var DATA = {
     "wuwa-daily": [
-      {id:"w_d1", label:"플레이트 소모", note:"다음 날로 안 넘기기 · 180개 이상 쓰면 솔라리스 활약도 60"},
-      {id:"w_d2", label:"솔라리스 활약도 보상 수령"},
-      {id:"w_d3", label:"선약 방송국 일일 임무"},
-      {id:"w_d4", label:"클램코인런", note:"약 3분 루트 · 25,000코인 내외"},
-      {id:"w_d5", label:"일반 의뢰(일퀘)"},
-      {id:"w_d6", label:"에코런 / 악몽 군락 파밍"},
-      {id:"w_d7", label:"모네·운모 암석 채굴"},
-      {id:"w_d8", label:"용비늘 정석 채집"}
+      {id:"w_d1", label:"플레이트 소모", note:"최대 240 · 시간당 10 회복 · 초과분은 결정 웨이브플레이트로 50% 전환"},
+      {id:"w_d2", label:"솔라리스 가이드북 활약도 100점", note:"아스트라이트 60개"},
+      {id:"w_d3", label:"우편함 확인", note:"미수령 아스트라이트·경험치·셸 크레딧"},
+      {id:"w_d4", label:"클램코인런", note:"테살 해저산맥 등 · 일일 한도까지 3분 내외"},
+      {id:"w_d5", label:"선약 방송국(파이오니어 팟캐스트) 일일 임무"},
+      {id:"w_d6", label:"에코 파밍", note:"첫 일일 처치 드롭률 보너스"},
+      {id:"w_d7", label:"상점 일일 한정 구매"}
     ],
     "wuwa-weekly": [
-      {id:"w_w1", label:"군가의 중주", note:"솔라리스 가이드 → 주기적 도전, 주간 횟수 제한"},
-      {id:"w_w2", label:"수많은 문의 환상 클리어"},
+      {id:"w_w1", label:"군가의 중주(주간 보스)", note:"스킬 재료 보상 주 3회 제한 · 에코 파밍 자체는 무제한"},
+      {id:"w_w2", label:"수많은 문의 환상 클리어", note:"월요일 초기화 전"},
       {id:"w_w3", label:"강화 흡수 15회 소진", note:"데이터 스테이션"},
       {id:"w_w4", label:"선약 방송국 주간 보상"},
       {id:"w_w5", label:"상점 재고 구매", note:"선택"}
     ],
     "nte-daily": [
-      {id:"n_d1", label:"별미카페 폰즈 수령"},
-      {id:"n_d2", label:"별미카페 재고 보충"},
-      {id:"n_d3", label:"인연 메뉴 선물 전달"},
-      {id:"n_d4", label:"캐릭터 아크에 육성 재료 사용"}
+      {id:"n_d1", label:"분수대 동전 · 복나무 기도 · 마녀의 집 점보기", note:"일화·보물찾기·축복"},
+      {id:"n_d2", label:"캐릭터 선물하기 10회"},
+      {id:"n_d3", label:"본성 픽셀 소모"},
+      {id:"n_d4", label:"도시 활력제 소모", note:"일일 낚시·점장 특제·배달하기 등"},
+      {id:"n_d5", label:"별미카페 딸깍", note:"폰즈 수급 + 재고 보충"},
+      {id:"n_d6", label:"인연 상영관", note:"데이트 콘텐츠, 일 3회"},
+      {id:"n_d7", label:"나쿠펜다의 연못", note:"하루 1번 소원"}
     ],
     "nte-weekly": [
-      {id:"n_w1", label:"에비스 경매장 입찰"},
-      {id:"n_w2", label:"탐식의 눈 입찰 + 폰즈 던전", note:"주 1회 무료"},
-      {id:"n_w3", label:"자택 몽몽솜 상호작용"},
-      {id:"n_w4", label:"주간 보스 3회 클리어"},
-      {id:"n_w5", label:"우편함 이상 의뢰 처리"},
-      {id:"n_w6", label:"도시 활력제 전부 소모", note:"일요일까지"},
-      {id:"n_w7", label:"핑크퍼스 클리어", note:"2주 간격 · 최대 100만 폰즈"}
+      {id:"n_w1", label:"주간 보스 3회 클리어"},
+      {id:"n_w2", label:"주간 경매장", note:"에비스 경매장 · 뉴헤렌드 구역"},
+      {id:"n_w3", label:"핑크퍼스 털기", note:"2주 간격 · 최대 100만 폰즈"},
+      {id:"n_w4", label:"이상가구 보상 수령", note:"나무상자·몽몽솜 구름·주간 마몬·우편함 이상배달 등"},
+      {id:"n_w5", label:"이상 순례", note:"본성 픽셀 소모"},
+      {id:"n_w6", label:"주간 초기화 금고런", note:"폰즈 연금"}
     ],
     "mabi-daily": [
-      {id:"m_d1", label:"캐시샵 추천픽 무료 상품"},
-      {id:"m_d2", label:"캐시샵 데카 은동전 상자"},
-      {id:"m_d3", label:"캐시샵 골드 조각난 보석 상자"},
-      {id:"m_d4", label:"검은 구멍 3회"},
-      {id:"m_d5", label:"소환의 결계 2회"},
-      {id:"m_d6", label:"망령의 탑 5회"},
-      {id:"m_d7", label:"요일 던전 1회"},
-      {id:"m_d8", label:"일일 미션"},
-      {id:"m_d9", label:"필드보스(늑대의 숲·여신의 뜰·얼음 협곡)", note:"난도별 각 1회"}
+      {id:"m_d1", label:"캐시샵 4종 구매", note:"무료 추천픽·은동전 상자·조각난 보석 상자·주간 마족 상자"},
+      {id:"m_d2", label:"검은 구멍", note:"30분마다 초기화, 가능한 만큼"},
+      {id:"m_d3", label:"소환의 결계", note:"매 시간 정각"},
+      {id:"m_d4", label:"망령의 탑 5회"},
+      {id:"m_d5", label:"요일 아르바이트"},
+      {id:"m_d6", label:"사냥터 보스 처치"}
     ],
     "mabi-weekly": [
-      {id:"m_w1", label:"필드보스 페리·크라브바흐·크라마 처치"},
-      {id:"m_w2", label:"어비스 3종 클리어", note:"가라앉은 유적·무너진 제단·파멸의 전당"},
-      {id:"m_w3", label:"레이드: 먼 바다의 회색 미로"},
-      {id:"m_w4", label:"마물 퇴치 증표 교환"},
-      {id:"m_w5", label:"모험가 길드 정기 의뢰", note:"심층던전 3·던전 5·사냥터 5"},
-      {id:"m_w6", label:"채집 스크롤 3종"},
-      {id:"m_w7", label:"주간 미션"}
+      {id:"m_w1", label:"필드보스 5종", note:"페리·크라브바흐·크라마·드로흐에넘·토르모그"},
+      {id:"m_w2", label:"어비스 3종", note:"가라앉은 유적·무너진 제단·파멸의 전당"},
+      {id:"m_w3", label:"시즌2 어비스 4종", note:"지하 대공동·부활의 신단·혼돈의 신전·오염된 폐기장"},
+      {id:"m_w4", label:"레이드 3종", note:"글라스기브넨·서큐버스·화이트 서큐버스"},
+      {id:"m_w5", label:"주간 사냥터 5회 · 심층 던전 3회"},
+      {id:"m_w6", label:"마물 퇴치 증표 교환"},
+      {id:"m_w7", label:"주간 미션 3회"},
+      {id:"m_w8", label:"검은 구멍 주간 초과분", note:"누적 한도 7회"}
     ]
   };
 
