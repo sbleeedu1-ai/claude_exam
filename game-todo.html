@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>게임 숙제 체크리스트</title>
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#12151d;
+  --surface:#1a1e29;
+  --surface-2:#212635;
+  --ink:#eef0f6;
+  --ink-dim:#8a92a6;
+  --line:#2a3042;
+  --line-soft:#212739;
+  --ok:#4fd8b0;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+
+  --wuwa:#4fd0d8;
+  --wuwa-soft:#12292b;
+  --nte:#ec93bb;
+  --nte-soft:#2c1a25;
+  --mabi:#d4a856;
+  --mabi-soft:#2c2313;
+}
+*{box-sizing:border-box;}
+html,body{background:var(--bg);}
+body{
+  margin:0;color:var(--ink);
+  font-family:"Noto Sans KR",-apple-system,sans-serif;
+  padding-inline:18px;padding-block:0 60px;
+}
+.wrap{max-width:920px;margin:0 auto;}
+
+.hero{padding-block:38px 18px;}
+.eyebrow{font-family:"Manrope",sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);font-weight:700;}
+h1{font-family:"Manrope",sans-serif;font-weight:800;font-size:clamp(26px,5vw,36px);line-height:1.15;margin:10px 0 10px;text-wrap:balance;}
+.hero p{color:var(--ink-dim);font-size:14.5px;max-width:640px;line-height:1.65;margin:0;}
+
+.note-box{
+  margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:13px 16px;font-size:12.5px;line-height:1.65;color:var(--ink-dim);
+}
+.note-box b{color:var(--ink);}
+
+.catnav{
+  position:sticky;top:0;z-index:5;
+  display:flex;gap:8px;overflow-x:auto;padding-block:12px;
+  background:var(--bg);border-bottom:1px solid var(--line);margin-top:20px;margin-bottom:4px;
+}
+.catnav a{
+  flex:none;font-family:"Manrope",sans-serif;font-size:13.5px;font-weight:700;
+  text-decoration:none;color:var(--ink-dim);background:var(--surface);border:1px solid var(--line);
+  padding:7px 14px;border-radius:999px;white-space:nowrap;
+}
+.catnav a:hover{color:var(--ink);}
+
+.game{padding-block:28px 6px;scroll-margin-top:56px;--accent:var(--wuwa);--accent-soft:var(--wuwa-soft);}
+.game[data-game="nte"]{--accent:var(--nte);--accent-soft:var(--nte-soft);}
+.game[data-game="mabi"]{--accent:var(--mabi);--accent-soft:var(--mabi-soft);}
+
+.game-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+.game-title-row{display:flex;align-items:center;gap:10px;}
+.game-dot{width:11px;height:11px;border-radius:3px;background:var(--accent);flex:none;}
+.game-title{font-family:"Manrope",sans-serif;font-size:21px;font-weight:800;}
+.reset-chip{font-size:11.5px;color:var(--ink-dim);background:var(--surface);border:1px solid var(--line);padding:4px 10px;border-radius:999px;}
+
+.progress-row{display:flex;align-items:center;gap:10px;margin:12px 0 18px;}
+.progress-track{flex:1;height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden;}
+.progress-fill{height:100%;background:var(--accent);width:0%;transition:width .25s ease;}
+.progress-text{font-family:"Manrope",sans-serif;font-variant-numeric:tabular-nums;font-size:12.5px;font-weight:700;color:var(--accent);min-width:44px;text-align:right;}
+
+.cycle-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+@media (min-width:680px){ .cycle-grid{grid-template-columns:1fr 1fr;} }
+
+.cycle-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+.cycle-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 16px;border-bottom:1px solid var(--line);background:var(--accent-soft);
+}
+.cycle-name{font-family:"Manrope",sans-serif;font-size:13px;font-weight:800;letter-spacing:.03em;color:var(--accent);}
+.cycle-count{font-size:11.5px;color:var(--ink-dim);font-variant-numeric:tabular-nums;}
+
+.item{
+  display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-top:1px solid var(--line-soft);
+}
+.item:first-of-type{border-top:none;}
+.item input[type="checkbox"]{
+  appearance:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);
+  background:var(--surface-2);flex:none;margin-top:1px;cursor:pointer;position:relative;
+}
+.item input[type="checkbox"]:checked{background:var(--accent);border-color:var(--accent);}
+.item input[type="checkbox"]:checked::after{
+  content:"";position:absolute;left:5px;top:1px;width:5px;height:9px;
+  border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(40deg);
+}
+.item input[type="checkbox"]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.item label{font-size:13.5px;line-height:1.5;cursor:pointer;color:var(--ink);}
+.item.checked label{color:var(--ink-dim);text-decoration:line-through;text-decoration-color:var(--line);}
+.item .item-note{display:block;font-size:11.5px;color:var(--ink-dim);margin-top:2px;}
+
+.foot{
+  margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--ink-dim);line-height:1.8;
+}
+.foot .warn{color:var(--ink);font-weight:600;display:block;margin-bottom:6px;}
+.foot a{color:var(--ink-dim);}
+.foot ul{margin:6px 0 0;padding-left:18px;}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Daily / Weekly Checklist</div>
+    <h1>게임 숙제 체크리스트</h1>
+    <p>명조: 워더링 웨이브 · 이환(NTE) · 마비노기 모바일의 일일·주간 숙제를 한 페이지에서 체크합니다. 체크 상태는 각 게임의 실제 초기화 시각(KST 기준)에 맞춰 자동으로 리셋됩니다.</p>
+
+    <div class="note-box">
+      <b>저장 방식</b> — 체크 상태는 이 브라우저(기기)에만 저장되며 서버로 전송되지 않습니다. 다른 기기·브라우저와는 공유되지 않고, 사이트 데이터를 지우면 초기화됩니다.
+    </div>
+  </div>
+
+  <nav class="catnav">
+    <a href="#wuwa">명조</a>
+    <a href="#nte">이환</a>
+    <a href="#mabi">마비노기 모바일</a>
+  </nav>
+
+  <!-- 명조 -->
+  <section class="game" id="wuwa" data-game="wuwa">
+    <div class="game-head">
+      <div class="game-title-row"><span class="game-dot"></span><span class="game-title">명조: 워더링 웨이브</span></div>
+      <span class="reset-chip">일일 05:00 · 주간 월요일 05:00 (KST)</span>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" data-fill="wuwa"></div></div>
+      <span class="progress-text" data-count="wuwa">0/0</span>
+    </div>
+
+    <div class="cycle-grid">
+      <div class="cycle-card" data-cycle-card="wuwa-daily">
+        <div class="cycle-head"><span class="cycle-name">일일 숙제</span><span class="cycle-count" data-cycle-count="wuwa-daily">0/0</span></div>
+        <div data-list="wuwa-daily"></div>
+      </div>
+      <div class="cycle-card" data-cycle-card="wuwa-weekly">
+        <div class="cycle-head"><span class="cycle-name">주간 숙제</span><span class="cycle-count" data-cycle-count="wuwa-weekly">0/0</span></div>
+        <div data-list="wuwa-weekly"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 이환 -->
+  <section class="game" id="nte" data-game="nte">
+    <div class="game-head">
+      <div class="game-title-row"><span class="game-dot"></span><span class="game-title">이환 (NTE)</span></div>
+      <span class="reset-chip">일일 자정 기준(초기화 시각 미확인) · 주간 월요일 05:00 (KST)</span>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" data-fill="nte"></div></div>
+      <span class="progress-text" data-count="nte">0/0</span>
+    </div>
+
+    <div class="cycle-grid">
+      <div class="cycle-card" data-cycle-card="nte-daily">
+        <div class="cycle-head"><span class="cycle-name">일일 숙제</span><span class="cycle-count" data-cycle-count="nte-daily">0/0</span></div>
+        <div data-list="nte-daily"></div>
+      </div>
+      <div class="cycle-card" data-cycle-card="nte-weekly">
+        <div class="cycle-head"><span class="cycle-name">주간 숙제</span><span class="cycle-count" data-cycle-count="nte-weekly">0/0</span></div>
+        <div data-list="nte-weekly"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 마비노기 모바일 -->
+  <section class="game" id="mabi" data-game="mabi">
+    <div class="game-head">
+      <div class="game-title-row"><span class="game-dot"></span><span class="game-title">마비노기 모바일</span></div>
+      <span class="reset-chip">일일 06:00 · 주간 월요일 06:00 (KST)</span>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" data-fill="mabi"></div></div>
+      <span class="progress-text" data-count="mabi">0/0</span>
+    </div>
+
+    <div class="cycle-grid">
+      <div class="cycle-card" data-cycle-card="mabi-daily">
+        <div class="cycle-head"><span class="cycle-name">일일 숙제</span><span class="cycle-count" data-cycle-count="mabi-daily">0/0</span></div>
+        <div data-list="mabi-daily"></div>
+      </div>
+      <div class="cycle-card" data-cycle-card="mabi-weekly">
+        <div class="cycle-head"><span class="cycle-name">주간 숙제</span><span class="cycle-count" data-cycle-count="mabi-weekly">0/0</span></div>
+        <div data-list="mabi-weekly"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span class="warn">안내</span>
+    항목 구성은 커뮤니티 공략(2026년 상반기~9월 기준)을 바탕으로 정리했으며, 패치로 콘텐츠명이나 초기화 조건이 바뀔 수 있습니다. 이환의 정확한 일일 초기화 시각은 출처에서 확인하지 못해 자정 기준으로 동작하며, 실제 게임 내 시각과 다를 수 있습니다.
+    <ul>
+      <li><a href="https://www.fmkorea.com/9060248173" target="_blank" rel="noopener">에펨코리아 — 명조 주기별 루틴 체크리스트</a></li>
+      <li><a href="https://vortexgaming.io/postdetail/330326" target="_blank" rel="noopener">Vortex Gaming — 명조 주간 숙제 가이드</a></li>
+      <li><a href="https://www.gameple.co.kr/news/articleView.html?idxno=215539" target="_blank" rel="noopener">게임플 — 이환 최소 일일 숙제 루틴</a></li>
+      <li><a href="https://www.inven.co.kr/board/nte/6518/77" target="_blank" rel="noopener">이환 인벤 — 주간 숙제 정리</a></li>
+      <li><a href="https://www.inven.co.kr/board/mabimo/6366/105" target="_blank" rel="noopener">마비노기 모바일 인벤 — 일일 &amp; 주간 숙제 정리</a></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+(function(){
+  var DATA = {
+    "wuwa-daily": [
+      {id:"w_d1", label:"플레이트 소모", note:"다음 날로 안 넘기기 · 180개 이상 쓰면 솔라리스 활약도 60"},
+      {id:"w_d2", label:"솔라리스 활약도 보상 수령"},
+      {id:"w_d3", label:"선약 방송국 일일 임무"},
+      {id:"w_d4", label:"클램코인런", note:"약 3분 루트 · 25,000코인 내외"},
+      {id:"w_d5", label:"일반 의뢰(일퀘)"},
+      {id:"w_d6", label:"에코런 / 악몽 군락 파밍"},
+      {id:"w_d7", label:"모네·운모 암석 채굴"},
+      {id:"w_d8", label:"용비늘 정석 채집"}
+    ],
+    "wuwa-weekly": [
+      {id:"w_w1", label:"군가의 중주", note:"솔라리스 가이드 → 주기적 도전, 주간 횟수 제한"},
+      {id:"w_w2", label:"수많은 문의 환상 클리어"},
+      {id:"w_w3", label:"강화 흡수 15회 소진", note:"데이터 스테이션"},
+      {id:"w_w4", label:"선약 방송국 주간 보상"},
+      {id:"w_w5", label:"상점 재고 구매", note:"선택"}
+    ],
+    "nte-daily": [
+      {id:"n_d1", label:"별미카페 폰즈 수령"},
+      {id:"n_d2", label:"별미카페 재고 보충"},
+      {id:"n_d3", label:"인연 메뉴 선물 전달"},
+      {id:"n_d4", label:"캐릭터 아크에 육성 재료 사용"}
+    ],
+    "nte-weekly": [
+      {id:"n_w1", label:"에비스 경매장 입찰"},
+      {id:"n_w2", label:"탐식의 눈 입찰 + 폰즈 던전", note:"주 1회 무료"},
+      {id:"n_w3", label:"자택 몽몽솜 상호작용"},
+      {id:"n_w4", label:"주간 보스 3회 클리어"},
+      {id:"n_w5", label:"우편함 이상 의뢰 처리"},
+      {id:"n_w6", label:"도시 활력제 전부 소모", note:"일요일까지"},
+      {id:"n_w7", label:"핑크퍼스 클리어", note:"2주 간격 · 최대 100만 폰즈"}
+    ],
+    "mabi-daily": [
+      {id:"m_d1", label:"캐시샵 추천픽 무료 상품"},
+      {id:"m_d2", label:"캐시샵 데카 은동전 상자"},
+      {id:"m_d3", label:"캐시샵 골드 조각난 보석 상자"},
+      {id:"m_d4", label:"검은 구멍 3회"},
+      {id:"m_d5", label:"소환의 결계 2회"},
+      {id:"m_d6", label:"망령의 탑 5회"},
+      {id:"m_d7", label:"요일 던전 1회"},
+      {id:"m_d8", label:"일일 미션"},
+      {id:"m_d9", label:"필드보스(늑대의 숲·여신의 뜰·얼음 협곡)", note:"난도별 각 1회"}
+    ],
+    "mabi-weekly": [
+      {id:"m_w1", label:"필드보스 페리·크라브바흐·크라마 처치"},
+      {id:"m_w2", label:"어비스 3종 클리어", note:"가라앉은 유적·무너진 제단·파멸의 전당"},
+      {id:"m_w3", label:"레이드: 먼 바다의 회색 미로"},
+      {id:"m_w4", label:"마물 퇴치 증표 교환"},
+      {id:"m_w5", label:"모험가 길드 정기 의뢰", note:"심층던전 3·던전 5·사냥터 5"},
+      {id:"m_w6", label:"채집 스크롤 3종"},
+      {id:"m_w7", label:"주간 미션"}
+    ]
+  };
+
+  var SECTIONS = [
+    {key:"wuwa-daily",  cycle:"daily",  resetHour:5},
+    {key:"wuwa-weekly", cycle:"weekly", resetHour:5,  resetDay:1},
+    {key:"nte-daily",   cycle:"daily",  resetHour:0},
+    {key:"nte-weekly",  cycle:"weekly", resetHour:5,  resetDay:1},
+    {key:"mabi-daily",  cycle:"daily",  resetHour:6},
+    {key:"mabi-weekly", cycle:"weekly", resetHour:6,  resetDay:1}
+  ];
+
+  function kstParts(){
+    var shifted = new Date(Date.now() + 9*3600*1000);
+    return {
+      y: shifted.getUTCFullYear(),
+      mo: shifted.getUTCMonth(),
+      d: shifted.getUTCDate(),
+      h: shifted.getUTCHours(),
+      dow: shifted.getUTCDay()
+    };
+  }
+  function pad(n){ return n < 10 ? "0"+n : ""+n; }
+
+  function periodKey(cycle, resetHour, resetDay){
+    var p = kstParts();
+    var effDate = new Date(Date.UTC(p.y, p.mo, p.d));
+    if (p.h < resetHour) effDate.setUTCDate(effDate.getUTCDate() - 1);
+
+    if (cycle === "daily"){
+      return effDate.getUTCFullYear()+"-"+pad(effDate.getUTCMonth()+1)+"-"+pad(effDate.getUTCDate());
+    }
+    var dow = effDate.getUTCDay();
+    var sinceMonday = (dow + 6) % 7;
+    var monday = new Date(effDate);
+    monday.setUTCDate(monday.getUTCDate() - sinceMonday);
+    return "W"+monday.getUTCFullYear()+"-"+pad(monday.getUTCMonth()+1)+"-"+pad(monday.getUTCDate());
+  }
+
+  var STORE_KEY = "gametodo_v1";
+  function loadStore(){
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch(e){ return {}; }
+  }
+  function saveStore(store){
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){}
+  }
+
+  var store = loadStore();
+
+  SECTIONS.forEach(function(sec){
+    var key = periodKey(sec.cycle, sec.resetHour, sec.resetDay);
+    var entry = store[sec.key];
+    if (!entry || entry.period !== key){
+      store[sec.key] = {period: key, checked: {}};
+    }
+  });
+  saveStore(store);
+
+  function renderList(sectionKey){
+    var host = document.querySelector('[data-list="'+sectionKey+'"]');
+    if (!host) return;
+    var items = DATA[sectionKey] || [];
+    var checked = store[sectionKey].checked;
+    items.forEach(function(it){
+      var row = document.createElement("div");
+      row.className = "item" + (checked[it.id] ? " checked" : "");
+      row.innerHTML =
+        '<input type="checkbox" id="'+it.id+'"'+(checked[it.id] ? " checked" : "")+'>' +
+        '<label for="'+it.id+'">'+it.label+(it.note ? '<span class="item-note">'+it.note+'</span>' : '')+'</label>';
+      host.appendChild(row);
+      var cb = row.querySelector("input");
+      cb.addEventListener("change", function(){
+        store[sectionKey].checked[it.id] = cb.checked;
+        row.classList.toggle("checked", cb.checked);
+        saveStore(store);
+        updateCounts();
+      });
+    });
+  }
+
+  function updateCounts(){
+    var gameKeys = {wuwa:["wuwa-daily","wuwa-weekly"], nte:["nte-daily","nte-weekly"], mabi:["mabi-daily","mabi-weekly"]};
+    Object.keys(gameKeys).forEach(function(game){
+      var total = 0, done = 0;
+      gameKeys[game].forEach(function(sectionKey){
+        var items = DATA[sectionKey] || [];
+        var checked = store[sectionKey].checked;
+        var d = 0;
+        items.forEach(function(it){ if (checked[it.id]) d++; });
+        total += items.length; done += d;
+        var countEl = document.querySelector('[data-cycle-count="'+sectionKey+'"]');
+        if (countEl) countEl.textContent = d + "/" + items.length;
+      });
+      var fillEl = document.querySelector('[data-fill="'+game+'"]');
+      var textEl = document.querySelector('[data-count="'+game+'"]');
+      var pct = total ? Math.round(done/total*100) : 0;
+      if (fillEl) fillEl.style.width = pct + "%";
+      if (textEl) textEl.textContent = done + "/" + total;
+    });
+  }
+
+  Object.keys(DATA).forEach(renderList);
+  updateCounts();
+})();
+</script>
+</body>
+</html>
