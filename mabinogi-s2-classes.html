@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>마비노기 모바일 시즌2 직업 도감</title>
+<style>
+:root{
+  --bg:#f3efe6;
+  --surface:#fffdf8;
+  --surface-2:#ece4d3;
+  --ink:#241d15;
+  --ink-dim:#7a6f5c;
+  --line:#ddd2ba;
+  --gold:#a9812f;
+  --gold-soft:#f1e6c9;
+  --shadow:0 1px 2px rgba(40,30,10,.06);
+  --tier-s:#a9812f;
+  --tier-a:#3f7d5c;
+  --tier-b:#3f5cad;
+  --tier-c:#8a8375;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171220;
+    --surface:#1f1930;
+    --surface-2:#261f39;
+    --ink:#f1ecdf;
+    --ink-dim:#a99cc4;
+    --line:#3a2f52;
+    --gold:#e0bb5c;
+    --gold-soft:#3a3018;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+    --tier-s:#e0bb5c;
+    --tier-a:#5cb98c;
+    --tier-b:#7a9be8;
+    --tier-c:#9089ab;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171220;
+  --surface:#1f1930;
+  --surface-2:#261f39;
+  --ink:#f1ecdf;
+  --ink-dim:#a99cc4;
+  --line:#3a2f52;
+  --gold:#e0bb5c;
+  --gold-soft:#3a3018;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+  --tier-s:#e0bb5c;
+  --tier-a:#5cb98c;
+  --tier-b:#7a9be8;
+  --tier-c:#9089ab;
+}
+
+*{box-sizing:border-box;}
+html,body{background:var(--bg);}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:"Noto Sans KR",-apple-system,sans-serif;
+  padding-inline:18px;
+  padding-block:0 56px;
+}
+.wrap{max-width:1080px;margin:0 auto;}
+
+/* Hero */
+.hero{padding-block:40px 22px;}
+.eyebrow{
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);font-weight:700;
+}
+h1{
+  font-family:"Cinzel",serif;
+  font-size:clamp(28px,5vw,42px);
+  line-height:1.2;margin:10px 0 10px;text-wrap:balance;
+}
+.hero p{color:var(--ink-dim);font-size:15px;max-width:680px;line-height:1.6;margin:0;}
+
+.stat-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+.stat-chip{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:9px 14px;font-size:13px;display:flex;gap:6px;align-items:baseline;
+  box-shadow:var(--shadow);
+}
+.stat-chip b{font-variant-numeric:tabular-nums;font-size:14px;}
+.stat-chip span{color:var(--ink-dim);}
+
+.callout{
+  margin-top:18px;background:var(--gold-soft);border:1px solid var(--gold);
+  border-radius:10px;padding:13px 16px;font-size:13.5px;line-height:1.6;color:var(--ink);
+}
+.callout b{color:var(--gold);}
+
+/* reference panel */
+.ref-panel{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:14px;margin:26px 0 6px;
+}
+.ref-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:17px 18px;box-shadow:var(--shadow);
+}
+.ref-card h3{font-family:"Cinzel",serif;font-size:14.5px;margin:0 0 11px;font-weight:600;}
+.ref-card p{font-size:12.5px;color:var(--ink-dim);line-height:1.65;margin:0 0 8px;}
+.ref-card p:last-child{margin-bottom:0;}
+.ref-card b{color:var(--ink);}
+
+.tag-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.tag-chip{
+  font-size:12px;background:var(--surface-2);border-radius:6px;
+  padding:4px 9px;color:var(--ink);font-weight:600;
+}
+.tag-chip span{color:var(--ink-dim);font-weight:400;margin-left:3px;}
+
+.table-wrap{overflow-x:auto;margin-bottom:8px;}
+.emblem-table{width:100%;border-collapse:collapse;font-size:12px;min-width:400px;}
+.emblem-table th,.emblem-table td{border-bottom:1px solid var(--line);padding:6px 6px;text-align:left;white-space:nowrap;}
+.emblem-table th{color:var(--ink-dim);font-weight:600;}
+.emblem-table td.et-tier{font-weight:800;}
+
+.tier-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;}
+.tier-legend .item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-dim);}
+
+/* sticky nav */
+.catnav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:5;
+  display:flex;gap:8px;overflow-x:auto;padding-block:12px;
+  background:var(--bg);border-bottom:1px solid var(--line);margin-top:10px;margin-bottom:8px;
+}
+.catnav a{
+  flex:none;font-size:13px;font-weight:600;text-decoration:none;color:var(--ink-dim);
+  background:var(--surface);border:1px solid var(--line);padding:7px 13px;border-radius:999px;white-space:nowrap;
+}
+.catnav a:hover{color:var(--ink);border-color:var(--gold);}
+
+/* section */
+.cat-section{padding-block:28px 8px;scroll-margin-top:56px;}
+.cat-head{display:flex;align-items:baseline;gap:10px;margin-bottom:16px;}
+.cat-head .swatch{width:11px;height:11px;border-radius:3px;background:var(--cat);}
+.cat-title{font-family:"Cinzel",serif;font-size:20px;font-weight:600;}
+.cat-count{font-size:12.5px;color:var(--ink-dim);}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--cat);
+  border-radius:12px;padding:16px 17px;box-shadow:var(--shadow);
+}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;gap:8px;}
+.card-name{font-size:16px;font-weight:700;}
+.badges{display:flex;gap:6px;align-items:center;flex:none;}
+.role-chip{
+  font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;
+  background:color-mix(in srgb, var(--cat) 16%, var(--surface));color:var(--cat);white-space:nowrap;
+}
+.tier-badge{
+  font-size:11px;font-weight:800;min-width:20px;height:20px;padding:0 5px;border-radius:6px;
+  display:inline-flex;align-items:center;justify-content:center;color:#fff;
+}
+.tier-s{background:var(--tier-s);}
+.tier-a{background:var(--tier-a);}
+.tier-b{background:var(--tier-b);}
+.tier-c{background:var(--tier-c);}
+.tier-n{background:transparent;border:1px dashed var(--line);color:var(--ink-dim);font-weight:600;}
+
+.rune-line{
+  display:grid;grid-template-columns:44px 1fr;gap:8px;font-size:12.5px;line-height:1.55;
+  padding-block:4px;border-top:1px solid var(--line);
+}
+.rune-line:first-of-type{border-top:none;padding-top:0;}
+.rune-label{color:var(--ink-dim);font-weight:600;}
+.rune-val{color:var(--ink);}
+
+.meta-note{
+  margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);
+  font-size:12.5px;color:var(--ink-dim);line-height:1.55;
+}
+.meta-note b{color:var(--ink);font-weight:600;}
+
+.foot{
+  margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--ink-dim);line-height:1.8;
+}
+.foot a{color:var(--ink-dim);}
+.foot .warn{color:var(--ink);font-weight:600;display:block;margin-bottom:6px;}
+.foot ul{margin:6px 0 0;padding-left:18px;}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Mabinogi Mobile · Season 2 — 빛과 어둠</div>
+    <h1>시즌2 직업별 룬 세팅 도감</h1>
+    <p>여신강림 5장 '빛과 어둠' 시즌2 메타를 기준으로 전 직업 21종의 무기·방어구·악세서리 룬, 세공 태그, 개조 우선순위, 커뮤니티 티어를 한 페이지에 정리했습니다.</p>
+
+    <div class="stat-strip">
+      <div class="stat-chip"><b>Lv.100</b><span>최고 레벨 (기존 85)</span></div>
+      <div class="stat-chip"><b>10성</b><span>룬 최고 단계 (기존 8성)</span></div>
+      <div class="stat-chip"><b>21종</b><span>수록 직업 수</span></div>
+      <div class="stat-chip"><b>2026.06.25</b><span>시즌2 적용일</span></div>
+    </div>
+
+    <div class="callout">
+      <b>참고</b> — 시즌2 기간에는 신규 직업이 추가되지 않았습니다. 가장 최근 직업 <b>기사</b>는 시즌2 시작 전인 2026년 4월 출시분이며, 다음 신규 직업 <b>인형사</b>(11월 예고)·<b>레인저</b>(2027년 3~4월 예고)는 시즌3 라인업으로 커뮤니티에 공유되고 있습니다. 아래는 시즌2 메타 기준 <b>기존 21개 직업</b>의 세팅 정리입니다.
+    </div>
+  </div>
+
+  <div class="ref-panel">
+    <div class="ref-card">
+      <h3>방어구 5부위 안내</h3>
+      <p>방어구는 <b>머리·상의·하의·장갑·신발</b> 5부위로 구성되며, 부위마다 고정된 전용 룬이 있는 게 아니라 5개 슬롯에 원하는 룬을 자유롭게 장착하는 방식입니다.</p>
+      <p>그래서 아래 직업별 카드의 '방어구' 항목은 <b>5슬롯에 나눠 채우는 추천 룬 2~3종</b>을 뜻합니다 (상위 룬을 중복 장착하는 경우가 많습니다).</p>
+    </div>
+
+    <div class="ref-card">
+      <h3>세공 태그 범례</h3>
+      <div class="tag-legend">
+        <span class="tag-chip">강<span>강타</span></span>
+        <span class="tag-chip">방<span>방해</span></span>
+        <span class="tag-chip">연<span>연타</span></span>
+        <span class="tag-chip">원<span>원소</span></span>
+        <span class="tag-chip">이<span>이동</span></span>
+        <span class="tag-chip">보<span>보조</span></span>
+        <span class="tag-chip">소<span>생존</span></span>
+      </div>
+      <p>장비 보석에 붙는 스킬 태그 7종의 약자입니다. 카드의 '세공' 항목은 직업별로 우선 확보하면 좋은 태그 조합(예: <b>강방이</b> = 강타·방해·이동 태그 우선)을 나타냅니다.</p>
+    </div>
+
+    <div class="ref-card" id="emblem">
+      <h3>엠블럼 티어 &amp; 공통 가이드</h3>
+      <div class="table-wrap">
+        <table class="emblem-table">
+          <tr><th>티어</th><th>엠블럼</th><th>특징</th></tr>
+          <tr><td class="et-tier" style="color:var(--tier-s)">SSS</td><td>영원한 밤</td><td>침식 룬과 조합해도 안정적, 상시 효율 종결</td></tr>
+          <tr><td class="et-tier" style="color:var(--tier-s)">S</td><td>해방 / 위대함</td><td>침식 룬 중복 시 효율 하락 주의</td></tr>
+          <tr><td class="et-tier" style="color:var(--tier-a)">A</td><td>빛바른 별</td><td>조건부 브레이크 딜러용, 타이밍 의존</td></tr>
+          <tr><td class="et-tier" style="color:var(--tier-b)">B</td><td>침묵</td><td>잡몹 처리·광역 특화, 무과금 추천</td></tr>
+          <tr><td class="et-tier" style="color:var(--tier-c)">C</td><td>고결함</td><td>입장 컷 맞추기용, 전투력 위주</td></tr>
+          <tr><td class="et-tier" style="color:var(--ink-dim)">F</td><td>태초 / 백금</td><td>이론상 스펙은 좋으나 실전 각성 밸류 낮음</td></tr>
+        </table>
+      </div>
+      <p>엔드게임 기본형은 <b>영원한 밤 + 침식 룬 2개</b>, 무과금·초반은 <b>침묵</b>(속도)이나 <b>고결함</b>(컷 통과)이 효율적입니다. <b>기사·도적</b>은 태초/백금 계열이 각성 밸류가 낮아 비추천됩니다.</p>
+    </div>
+  </div>
+
+  <nav class="catnav">
+    <a href="#warrior">전사 계열</a>
+    <a href="#archer">궁수 계열</a>
+    <a href="#mage">마법 계열</a>
+    <a href="#healer">힐러 계열</a>
+    <a href="#bard">음유시인 계열</a>
+    <a href="#rogue">도적 계열</a>
+    <a href="#emblem">엠블럼</a>
+  </nav>
+
+  <!-- 전사 계열 -->
+  <section class="cat-section" id="warrior" style="--cat:#b8433f">
+    <div class="cat-head"><span class="swatch"></span><span class="cat-title">전사 계열</span><span class="cat-count">4종</span></div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">전사</span><div class="badges"><span class="tier-badge tier-n">-</span><span class="role-chip">근접 딜/탱</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">칼바람, 위엄, 아귀</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">붕괴, 돌격, 패기</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">강방이</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 4</span></div>
+        <div class="meta-note"><b>티어</b> — 커뮤니티 딜러 티어표 2건 모두 전사는 순위가 명시되지 않았습니다. 자료 확인 전까지 등급 표기를 비워둡니다.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">대검전사</span><div class="badges"><span class="tier-badge tier-a">A</span><span class="role-chip">광역 딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">거대한 분노</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">끓는 피, 봉인술사</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">탄력, 광전사, 절단</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">강보보</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 5</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">검술사</span><div class="badges"><span class="tier-badge tier-a">A</span><span class="role-chip">근접 딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">타오르는 영광</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">아귀, 계승자, 수호자</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">관통, 평정, 일섬</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">강연이 / 강연보 / 강이보</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">3 → 4 → 5</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">기사</span><div class="badges"><span class="tier-badge tier-b">B</span><span class="role-chip">방패 탱커</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">눈부신 잔영</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">작열, 열의, 승전</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">지진, 용기, 돌파</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">치명타 태그 우선(전 부위)</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1→3→5 또는 1→5→6</span></div>
+        <div class="meta-note"><b>메타</b> — 공격·생존 동시 확보형 세팅. 치명타를 8,000~10,000 구간까지 채운 뒤 잉여 스탯은 추가타에 투자하는 방식이 권장됩니다.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 궁수 계열 -->
+  <section class="cat-section" id="archer" style="--cat:#4c7a4f">
+    <div class="cat-head"><span class="swatch"></span><span class="cat-title">궁수 계열</span><span class="cat-count">3종</span></div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">궁수</span><div class="badges"><span class="tier-badge tier-s">S</span><span class="role-chip">원거리 딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">무너진 경계, 금 간 봉인</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">닻, 매, 몰아침</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">연방강 / 연강방</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 4</span></div>
+        <div class="meta-note"><b>메타</b> — 악세서리 '매'가 최고 채용률의 핵심 룬. 닻·몰아침과 함께 안정적인 엔드게임 세팅으로 평가됩니다.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">장궁병</span><div class="badges"><span class="tier-badge tier-a">A</span><span class="role-chip">원거리 저격형</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">타오르는 영광</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">뼈 인장, 승전, 칼바람</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">초음파, 돌개, 호응</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">방강연</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">3 → 5 → 6</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">석궁사수</span><div class="badges"><span class="tier-badge tier-s">S</span><span class="role-chip">원거리 연사형</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">무한한 탐욕, 계승자</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">꿰뚫음, 화약, 산탄</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">원강연</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">2 → 3 → 4</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 마법 계열 -->
+  <section class="cat-section" id="mage" style="--cat:#3f5cad">
+    <div class="cat-head"><span class="swatch"></span><span class="cat-title">마법 계열</span><span class="cat-count">4종</span></div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">마법사</span><div class="badges"><span class="tier-badge tier-c">C</span><span class="role-chip">원거리 마법딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">계시</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">봉인술사, 무한한 탐욕</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">운석, 우레, 서리가시</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">원방소 / 원방강 / 원방연</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 6</span></div>
+        <div class="meta-note"><b>메타</b> — 상위권 유저 대부분이 '계시'를 핵심 무기 룬으로 채택. 캐스팅 속도와 공격 효율을 동시에 확보하는 안정적 선택지.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">빙결술사</span><div class="badges"><span class="tier-badge tier-a">A</span><span class="role-chip">마법 딜러/제어</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">칼바람, 위엄, 서광</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">빙하, 설원, 북풍</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">원소생</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1→5→6 또는 1→2→5</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">화염술사</span><div class="badges"><span class="tier-badge tier-a">A</span><span class="role-chip">마법 지속딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">뼈 인장, 계승자</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">폭격, 분출, 청염</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">원연강 / 원연보 / 원연방</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 5</span></div>
+        <div class="meta-note"><b>메타</b> — 지속 피해 극대화가 목표. '청염' 중심으로 분출·폭격을 조합하는 세팅이 상위권에서 가장 높은 사용률.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">전격술사</span><div class="badges"><span class="tier-badge tier-b">B</span><span class="role-chip">마법 버스트딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">계시</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">봉인술사, 무한한 탐욕</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">섬광, 폭풍우, 도관</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">원강보 / 원강방</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">자료 미확인</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 힐러 계열 -->
+  <section class="cat-section" id="healer" style="--cat:#b7902e">
+    <div class="cat-head"><span class="swatch"></span><span class="cat-title">힐러 계열</span><span class="cat-count">4종</span></div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">힐러</span><div class="badges"><span class="tier-badge tier-c">C</span><span class="role-chip">회복 서포터</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">긍지, 승전, 비늘 덮인 현자</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">광륜, 가호, 물결</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">보연강 / 보연보</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 3</span></div>
+        <div class="meta-note"><b>메타</b> — '계시' 중심의 궁수·마법 라인과 달리, 광륜·가호·물결 조합이 가장 안정적인 지원 능력을 제공하는 것으로 평가.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">사제</span><div class="badges"><span class="tier-badge tier-s">S</span><span class="role-chip">회복형 딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">뼈 인장, 긍지, 칼바람</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">심판, 집행, 성전</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">보강 &gt; 방 &gt; 연 (우선순위)</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 5</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">수도사</span><div class="badges"><span class="tier-badge tier-a">A</span><span class="role-chip">근접 힐러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">작열, 열의, 긍지</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">인과, 등불, 뇌정</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">보연이 / 보방연 / 보방이</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 4</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">암흑술사</span><div class="badges"><span class="tier-badge tier-c">C</span><span class="role-chip">마법 디버프딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">봉인술사, 무너진 경계</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">구속, 절제, 광기</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">소방연</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">자료 미확인</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 음유시인 계열 -->
+  <section class="cat-section" id="bard" style="--cat:#7a4fa0">
+    <div class="cat-head"><span class="swatch"></span><span class="cat-title">음유시인 계열</span><span class="cat-count">3종</span></div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">음유시인</span><div class="badges"><span class="tier-badge tier-b">B</span><span class="role-chip">버프 서포터</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">대군주</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">긍지, 바다뱀</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">무아, 합주, 변주</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">방 &gt; 보 &gt; 강 &gt; 연 (우선순위)</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 3 → 4</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">댄서</span><div class="badges"><span class="tier-badge tier-c">C</span><span class="role-chip">근접 딜/버프</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">공허, 계승자, 오팔 성배</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">발걸음, 전환, 환호</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">연이강 / 연이보</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 5</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">악사</span><div class="badges"><span class="tier-badge tier-b">B</span><span class="role-chip">원거리 버프딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">칼바람, 계승자, 뼈 인장</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">조율, 종장, 순환</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">방연강</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">2 → 3 → 5</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 도적 계열 -->
+  <section class="cat-section" id="rogue" style="--cat:#5c5470">
+    <div class="cat-head"><span class="swatch"></span><span class="cat-title">도적 계열</span><span class="cat-count">3종</span></div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">도적</span><div class="badges"><span class="tier-badge tier-s">S</span><span class="role-chip">단검 딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">열의, 작열, 계승자</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">폭발, 덫, 땅거미</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">방연강 / 방연소</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 3 → 5</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">격투가</span><div class="badges"><span class="tier-badge tier-a">A</span><span class="role-chip">맨손 딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">타오르는 영광</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">무너진 경계, 금 간 봉인</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">승천, 전진, 강격</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">이강이 / 강이강</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 5</span></div>
+        <div class="meta-note"><b>메타</b> — 치명타 효율 극대화가 핵심. '금 간 봉인'을 활용해 치명타 능력을 끌어올리는 방향으로 메타가 형성.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><span class="card-name">듀얼블레이드</span><div class="badges"><span class="tier-badge tier-a">A</span><span class="role-chip">쌍검 버스트딜러</span></div></div>
+        <div class="rune-line"><span class="rune-label">무기</span><span class="rune-val">바위 칼날</span></div>
+        <div class="rune-line"><span class="rune-label">방어구</span><span class="rune-val">무한한 탐욕, 승전</span></div>
+        <div class="rune-line"><span class="rune-label">악세</span><span class="rune-val">천침, 교차, 강화</span></div>
+        <div class="rune-line"><span class="rune-label">세공</span><span class="rune-val">연이강</span></div>
+        <div class="rune-line"><span class="rune-label">개조</span><span class="rune-val">1 → 2 → 5</span></div>
+        <div class="meta-note"><b>메타</b> — 시즌2 들어 변화가 가장 컸던 직업. 천침 위주 세팅에서 '침식·교차 강화' 조합으로 이동, 폭발 딜과 지속 화력을 동시에 노림.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="foot">
+    <span class="warn">데이터 유의사항</span>
+    룬·세공·개조·티어 정보는 2025년 4월~2026년 9월 사이에 작성된 커뮤니티 공략 자료를 취합한 것으로, 게시 시점과 작성자에 따라 평가가 엇갈리는 항목이 있습니다(특히 티어는 서로 다른 두 게시물의 기준을 병합한 참고용 등급입니다). 전격술사·암흑술사·기사 일부의 개조 정보와 전사의 티어는 텍스트로 확인 가능한 자료를 찾지 못해 비워두었습니다. 실제 세팅 전 게임 내 공지나 최신 커뮤니티 글로 재확인을 권장합니다.
+    <ul>
+      <li><a href="https://erinndata.pages.dev/cheatsheet/" target="_blank" rel="noopener">황산갈매기 자료실 — 직업별 룬 세팅 컨닝페이퍼(21직업)</a></li>
+      <li><a href="https://www.mabilife.com/guide/2026%EB%85%84-7%EC%9B%94-%EC%8B%9C%EC%A6%8C-2-%EB%A7%88%EB%B9%84%EB%85%B8%EA%B8%B0-%EB%AA%A8%EB%B0%94%EC%9D%BC-%EC%A0%84-%EC%A7%81%EC%97%85-%EB%A3%AC-%EC%B6%94%EC%B2%9C-%EC%B4%9D%EC%A0%95%EB%A6%AC-%EC%83%81%EC%9C%84%EA%B6%8C-%EC%9C%A0%EC%A0%80-%EB%A9%94%ED%83%80-%EB%B6%84%EC%84%9D" target="_blank" rel="noopener">Mabi Life — 시즌2 전 직업 룬 추천 총정리</a></li>
+      <li><a href="https://www.mabilife.com/guide/%EB%A7%88%EB%B9%84%EB%85%B8%EA%B8%B0-%EB%AA%A8%EB%B0%94%EC%9D%BC-%EC%8B%9C%EC%A6%8C-2-%EC%97%A0%EB%B8%94%EB%9F%BC-%ED%8B%B0%EC%96%B4-%EB%B0%8F-%EC%A2%85%EA%B2%B0-%EA%B0%80%EC%9D%B4%EB%93%9C" target="_blank" rel="noopener">Mabi Life — 시즌2 엠블럼 티어 및 종결 가이드</a></li>
+      <li><a href="https://gall.dcinside.com/mgallery/board/view/?id=mabinogimobile&no=356240" target="_blank" rel="noopener">디시인사이드 마비노기 모바일 갤러리 — 현시점 직업별 티어</a></li>
+      <li><a href="https://gall.dcinside.com/mgallery/board/view/?id=enban&no=1167526" target="_blank" rel="noopener">디시인사이드 에반(마비노기 모바일) 갤러리 — 직업 티어 최종정리판(7.13)</a></li>
+      <li><a href="https://gall.dcinside.com/mgallery/board/view/?id=enban&no=772117" target="_blank" rel="noopener">디시인사이드 에반 갤러리 — 직업별 보석 세공태그 정리</a></li>
+      <li><a href="https://www.inven.co.kr/board/mabimo/6366/204" target="_blank" rel="noopener">마비노기 모바일 인벤 — 전직업 스킬 개조 추천</a></li>
+      <li><a href="https://namu.wiki/w/%EB%A7%88%EB%B9%84%EB%85%B8%EA%B8%B0%20%EB%AA%A8%EB%B0%94%EC%9D%BC/%ED%81%B4%EB%9E%98%EC%8A%A4" target="_blank" rel="noopener">나무위키 — 마비노기 모바일/클래스</a></li>
+      <li>X(트위터) 커뮤니티 계정(@mobinorick, @48FW4, @Beodeul_mm 등)의 시즌2 직업별 룬·업데이트 공유 게시물</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
