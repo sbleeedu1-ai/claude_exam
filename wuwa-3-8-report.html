@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>명조 3.8 업데이트 리포트</title>
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#0a0f1a;
+  --surface:#111a2b;
+  --surface-2:#182238;
+  --ink:#eef2fb;
+  --ink-dim:#8b9ab8;
+  --line:#233150;
+  --line-soft:#1a2540;
+  --cyan:#4fe0d6;
+  --cyan-soft:#123132;
+  --violet:#b895f2;
+  --violet-soft:#241c3d;
+  --amber:#e8b954;
+  --amber-soft:#332711;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;}
+html,body{background:var(--bg);}
+body{
+  margin:0;color:var(--ink);
+  font-family:"Noto Sans KR",-apple-system,sans-serif;
+  padding-inline:18px;padding-block:0 60px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+
+/* Hero */
+.hero{padding-block:40px 20px;position:relative;}
+.eyebrow{
+  font-family:"Rajdhani",sans-serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cyan);font-weight:700;
+}
+h1{
+  font-family:"Rajdhani",sans-serif;font-weight:700;
+  font-size:clamp(30px,6vw,46px);line-height:1.08;margin:10px 0 12px;text-wrap:balance;
+  letter-spacing:.01em;
+}
+h1 span{color:var(--cyan);}
+.hero p{color:var(--ink-dim);font-size:15px;max-width:680px;line-height:1.65;margin:0;}
+
+.stat-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+.stat-chip{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:10px 14px;font-size:13px;display:flex;gap:7px;align-items:baseline;box-shadow:var(--shadow);
+}
+.stat-chip b{
+  font-family:"Rajdhani",sans-serif;font-variant-numeric:tabular-nums;
+  font-size:16px;font-weight:700;color:var(--ink);
+}
+.stat-chip span{color:var(--ink-dim);}
+.stat-chip.hl b{color:var(--cyan);}
+
+.status-banner{
+  margin-top:20px;background:var(--amber-soft);border:1px solid var(--amber);
+  border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.65;color:var(--ink);
+}
+.status-banner b{color:var(--amber);}
+
+/* sticky nav */
+.catnav{
+  position:sticky;top:0;z-index:5;
+  display:flex;gap:8px;overflow-x:auto;padding-block:12px;
+  background:var(--bg);border-bottom:1px solid var(--line);margin-top:22px;margin-bottom:6px;
+}
+.catnav a{
+  flex:none;font-family:"Rajdhani",sans-serif;font-size:14px;font-weight:700;letter-spacing:.02em;
+  text-decoration:none;color:var(--ink-dim);background:var(--surface);border:1px solid var(--line);
+  padding:7px 14px;border-radius:999px;white-space:nowrap;
+}
+.catnav a:hover{color:var(--ink);border-color:var(--cyan);}
+
+/* sections */
+.section{padding-block:30px 8px;scroll-margin-top:58px;}
+.section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap;}
+.section-title{font-family:"Rajdhani",sans-serif;font-size:24px;font-weight:700;}
+.section-tag{
+  font-size:11px;font-weight:700;letter-spacing:.05em;padding:3px 9px;border-radius:999px;
+}
+.tag-confirmed{background:var(--cyan-soft);color:var(--cyan);}
+.tag-leak{background:var(--violet-soft);color:var(--violet);}
+.section-desc{color:var(--ink-dim);font-size:13.5px;line-height:1.6;margin:6px 0 20px;max-width:680px;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:16px 17px;box-shadow:var(--shadow);
+}
+.card.confirmed{border-left:3px solid var(--cyan);}
+.card.leak{border-left:3px dashed var(--violet);}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.card-name{font-family:"Rajdhani",sans-serif;font-size:17px;font-weight:700;}
+.conf-badge{
+  font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap;
+}
+.conf-multi{background:var(--cyan-soft);color:var(--cyan);}
+.conf-single{background:var(--violet-soft);color:var(--violet);}
+.conf-mixed{background:var(--amber-soft);color:var(--amber);}
+.card-body{font-size:13px;color:var(--ink-dim);line-height:1.65;}
+.card-body b{color:var(--ink);font-weight:600;}
+.kv{display:grid;grid-template-columns:52px 1fr;gap:8px;font-size:12.5px;line-height:1.6;padding-block:3px;border-top:1px solid var(--line-soft);}
+.kv:first-of-type{border-top:none;padding-top:0;}
+.kv-k{color:var(--ink-dim);font-weight:600;}
+.kv-v{color:var(--ink);}
+
+/* highlight card for Lily */
+.spotlight{
+  background:linear-gradient(160deg,var(--surface) 0%,var(--violet-soft) 130%);
+  border:1px solid var(--violet);border-radius:14px;padding:22px 24px;
+  box-shadow:var(--shadow);margin-bottom:14px;
+}
+.spotlight-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.spotlight-name{font-family:"Rajdhani",sans-serif;font-size:26px;font-weight:700;color:var(--ink);}
+.spotlight-role{color:var(--violet);font-size:13px;font-weight:600;margin-top:2px;}
+.spotlight-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:16px;}
+.spotlight-col h4{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);margin:0 0 6px;font-weight:700;}
+.spotlight-col p{font-size:13px;color:var(--ink);line-height:1.6;margin:0;}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:4px 0 18px;font-size:12px;color:var(--ink-dim);}
+.legend .item{display:flex;align-items:center;gap:6px;}
+.legend .dot{width:9px;height:9px;border-radius:3px;}
+
+.timeline{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:6px 18px;margin-top:6px;
+}
+.tl-row{display:flex;gap:14px;padding-block:12px;border-top:1px solid var(--line-soft);align-items:baseline;flex-wrap:wrap;}
+.tl-row:first-child{border-top:none;}
+.tl-date{font-family:"Rajdhani",sans-serif;font-weight:700;color:var(--cyan);min-width:96px;font-variant-numeric:tabular-nums;}
+.tl-label{color:var(--ink);font-size:13.5px;}
+.tl-label span{color:var(--ink-dim);}
+
+.bridge-box{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;margin-top:16px;font-size:13.5px;color:var(--ink-dim);line-height:1.7;
+}
+.bridge-box b{color:var(--ink);}
+.bridge-box .tag-leak{margin-right:8px;}
+
+.foot{
+  margin-top:42px;padding-top:18px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--ink-dim);line-height:1.8;
+}
+.foot .warn{color:var(--ink);font-weight:600;display:block;margin-bottom:6px;}
+.foot a{color:var(--ink-dim);}
+.foot ul{margin:6px 0 0;padding-left:18px;}
+
+@media (max-width:520px){
+  .kv{grid-template-columns:44px 1fr;}
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Wuthering Waves · Version Report</div>
+    <h1>명조 3.7 <span>확정</span> → 3.8 <span>유출</span> 리포트</h1>
+    <p>9월 19일 공식 방송으로 확정된 3.7 버전 내용과, 아직 방송 전이라 전부 루머·유출 단계인 3.8 버전 정보를 한 페이지에 구분해서 정리했습니다.</p>
+
+    <div class="stat-strip">
+      <div class="stat-chip hl"><b id="dday">-</b><span>3.7 업데이트까지 (9/30 목)</span></div>
+      <div class="stat-chip"><b>6주</b><span>평균 대형 업데이트 주기</span></div>
+      <div class="stat-chip"><b>11월 중순</b><span>3.8 출시 예상(유출 기준)</span></div>
+      <div class="stat-chip"><b>2026.09.22</b><span>정보 기준일</span></div>
+    </div>
+
+    <div class="status-banner">
+      <b>먼저 읽어주세요</b> — Kuro Games는 아직 3.8 버전 방송을 진행하지 않았습니다. 아래 '3.8 유출·루머' 섹션은 데이터마이너·커뮤니티 찌라시에 근거한 <b>미확정 정보</b>이며, 실제 3.8 공식 방송(3.7 출시 후 약 5~6주 뒤 예상)에서 전혀 다르게 확정될 수 있습니다.
+    </div>
+  </div>
+
+  <nav class="catnav">
+    <a href="#official">3.7 공식 확정</a>
+    <a href="#leaks">3.8 유출·루머</a>
+    <a href="#bridge">4.0 떡밥</a>
+  </nav>
+
+  <!-- 3.7 공식 -->
+  <section class="section" id="official">
+    <div class="section-head">
+      <span class="section-title">3.7 버전 — 공식 확정</span>
+      <span class="section-tag tag-confirmed">2026.09.19 공식 방송 발표</span>
+    </div>
+    <p class="section-desc">테마 「거울에 잠긴 허상, 마음이 비추는 인간 세상」. 9월 28일 사전 다운로드, 9월 30일(목) 정식 업데이트로 Kuro Games가 직접 공개한 내용입니다.</p>
+
+    <div class="grid">
+      <div class="card confirmed">
+        <div class="card-top"><span class="card-name">신규 지역 · 스토리</span></div>
+        <div class="card-body">신규 지역 <b>몽추천라(몽주)</b> 공개. 메인 스토리 <b>제4장 4막</b>에서 '현방(조수)' 아크가 완결되며, 달여우 파수인이 만든 이공간 '몽추 심상 시뮬라크럼'이 새 무대로 열립니다.</div>
+      </div>
+
+      <div class="card confirmed">
+        <div class="card-top"><span class="card-name">1페이즈 픽업</span></div>
+        <div class="kv"><span class="kv-k">신캐</span><span class="kv-v">여우의 별자리(신) — 전도 속성, 증폭기, 첫 파수인 플레이어블 캐릭터</span></div>
+        <div class="kv"><span class="kv-k">복각</span><span class="kv-v">유노, 치사</span></div>
+      </div>
+
+      <div class="card confirmed">
+        <div class="card-top"><span class="card-name">2페이즈 픽업</span></div>
+        <div class="kv"><span class="kv-k">신캐</span><span class="kv-v">쇄명(소명) — 전도 속성, 직검, 파수인 사무부 감독관</span></div>
+        <div class="kv"><span class="kv-k">복각</span><span class="kv-v">린네, 루실라</span></div>
+      </div>
+
+      <div class="card confirmed">
+        <div class="card-top"><span class="card-name">신규 장비</span></div>
+        <div class="card-body">증폭기·직검·권갑·권총 각 1종의 신규 무기 등장. 여우의 별자리·쇄명의 전용 무기 포함.</div>
+      </div>
+
+      <div class="card confirmed">
+        <div class="card-top"><span class="card-name">이벤트</span></div>
+        <div class="card-body">'상자 속 기담', '오랜 꿈 촬영 수집' 등 다수의 시즌 이벤트가 함께 진행됩니다.</div>
+      </div>
+
+      <div class="card confirmed">
+        <div class="card-top"><span class="card-name">방송 쿠폰(만료)</span></div>
+        <div class="card-body">FALLINGSANCTUM · FINDSENTINEL · WAKINGMOON — 9월 19일 방송 중 공개, <b>9월 21일 만료</b>. 각 아스트라이트 100개 등 지급.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.8 유출 -->
+  <section class="section" id="leaks">
+    <div class="section-head">
+      <span class="section-title">3.8 버전 — 유출·루머</span>
+      <span class="section-tag tag-leak">공식 미발표 · 전부 추정</span>
+    </div>
+    <p class="section-desc">3.7이 6주 주기를 따른다면 3.8은 11월 10~12일경 시작될 것으로 추정됩니다. 아래는 그 이전까지 나온 유출 정보이며, 카드마다 근거의 신뢰도를 표시했습니다.</p>
+
+    <div class="legend">
+      <span class="item"><span class="dot" style="background:var(--cyan)"></span>다중소스 — 2개 이상 독립 소스 일치</span>
+      <span class="item"><span class="dot" style="background:var(--violet)"></span>단일소스 — 출처 1곳뿐</span>
+      <span class="item"><span class="dot" style="background:var(--amber)"></span>상충 — 소스마다 내용이 다름</span>
+    </div>
+
+    <div class="spotlight">
+      <div class="spotlight-top">
+        <div>
+          <div class="spotlight-name">릴리 (Lily)</div>
+          <div class="spotlight-role">3.8 1페이즈 신규 5성 — 가장 많이 유출된 캐릭터</div>
+        </div>
+        <span class="conf-badge conf-multi">다중소스 일치</span>
+      </div>
+      <div class="spotlight-grid">
+        <div class="spotlight-col">
+          <h4>기본 정보</h4>
+          <p>속성 <b>분광(스펙트로)</b> · 무기 <b>권총</b> · 출신 <b>신연방</b><br>향기의 세계에 홀로 남겨진 젊은 조향사 컨셉</p>
+        </div>
+        <div class="spotlight-col">
+          <h4>디자인</h4>
+          <p>흑백 고딕 드레스, 라벤더 베이스에 핑크 하이라이트 헤어, 검은 백조 모티브</p>
+        </div>
+        <div class="spotlight-col">
+          <h4>역할(추정)</h4>
+          <p>딜러형이 아닌 <b>합일(유니슨) 서포터</b> 추정. 힐+버프 이중 매커니즘 루머, 확정된 스킬 정보는 없음</p>
+        </div>
+        <div class="spotlight-col">
+          <h4>유출 성유물 세트</h4>
+          <p>이름이 소스마다 다르게 번역됨('물든 그리움의 꽃' 계열). 2세트 효과 힐량 증가, 5세트 효과로 아군 공격력 버프</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card leak">
+        <div class="card-top"><span class="card-name">시싱 · 프랙트시더스</span><span class="conf-badge conf-single">단일소스</span></div>
+        <div class="card-body">해외 유출 트래커(X) 1곳에서만 언급. '프랙트시더스'(가칭, 한국어 정식 표기 미확인) 세력의 수장 <b>시싱(Xi-Xing)</b>이 3.7 또는 3.8 중 등장할 것이라는 루머.</div>
+      </div>
+
+      <div class="card leak">
+        <div class="card-top"><span class="card-name">신규 4성 캐릭터</span><span class="conf-badge conf-single">단일소스</span></div>
+        <div class="card-body">2페이즈에 이름 미상의 남성 4성 공명자가 함께 나온다는 언급만 있고, 속성·무기 등 세부 정보는 아직 유출되지 않았습니다.</div>
+      </div>
+
+      <div class="card leak">
+        <div class="card-top"><span class="card-name">히유키 스킨</span><span class="conf-badge conf-multi">다중소스</span></div>
+        <div class="card-body">3.7~3.8 사이 히유키의 유료 스킨이 나올 것이라는 루머가 여러 소스에서 반복적으로 언급됩니다. 정확한 버전은 미확정.</div>
+      </div>
+
+      <div class="card leak">
+        <div class="card-top"><span class="card-name">복각 캐릭터 후보</span><span class="conf-badge conf-mixed">상충</span></div>
+        <div class="card-body">1페이즈 후보로 <b>시그리카</b>가 여러 곳에서 거론되지만, 2페이즈는 소스마다 <b>샹리 야오</b>+<b>제지</b> 또는 <b>샹리 야오</b>+Xiao Yan 등으로 갈려 확정하기 이릅니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.0 떡밥 -->
+  <section class="section" id="bridge">
+    <div class="section-head">
+      <span class="section-title">그 다음 — 4.0 신연방 떡밥</span>
+      <span class="section-tag tag-leak">초장기 루머</span>
+    </div>
+    <p class="section-desc">여러 유출 소스는 3.8을 "4.0 신연방 업데이트로 가는 마지막 다리 버전"으로 규정합니다. 아직 훨씬 먼 이야기지만, 릴리의 출신 세력이기도 한 신연방 관련 세계관 루머를 짧게 덧붙입니다.</p>
+
+    <div class="bridge-box">
+      <span class="tag-leak section-tag">단일/소수 소스</span>
+      신연방은 바다로 둘러싸인 군도 국가로, 서양식 인명과 '메이플 시럽'이 특산품이라는 언급 때문에 북미 모티브라는 추측이 있습니다. 공명자에 대한 처우가 나빠 대다수가 용병으로 살아간다는 설정 루머도 있고, 신연방 귀족가 출신 <b>모르테피</b>가 빈민가의 현실을 보고 각성한다는 서사, 선천적 공명자로 태어나 박해받는 <b>벨리나</b>의 서사가 유출로 돌고 있습니다. 전부 4.0 이후를 겨냥한 초장기 루머이며 확정 요소는 없습니다.
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row"><span class="tl-date">9/19</span><span class="tl-label">3.7 공식 방송 <span>(완료)</span></span></div>
+      <div class="tl-row"><span class="tl-date">9/28</span><span class="tl-label">3.7 사전 다운로드 <span>(공식 확정)</span></span></div>
+      <div class="tl-row"><span class="tl-date">9/30</span><span class="tl-label">3.7 정식 업데이트 <span>(공식 확정)</span></span></div>
+      <div class="tl-row"><span class="tl-date">~11월 초</span><span class="tl-label">3.8 사전 방송 예상 <span>(6주 주기 추정)</span></span></div>
+      <div class="tl-row"><span class="tl-date">~11/10</span><span class="tl-label">3.8 정식 업데이트 예상 <span>(유출 기준 추정)</span></span></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span class="warn">정보 유의사항</span>
+    3.7 섹션은 Kuro Games 공식 방송(2026.09.19) 및 이를 인용한 보도를 바탕으로 작성했습니다. 3.8·4.0 섹션은 전부 커뮤니티 데이터마이닝·찌라시로, 게임사가 확정한 내용이 아니며 실제 출시분과 캐릭터·일정이 크게 달라질 수 있습니다. 특히 복각 라인업은 출처 간 서술이 엇갈려 표로 단정하지 않고 '상충'으로 표기했습니다.
+    <ul>
+      <li><a href="https://www.sportskeeda.com/esports/wuwa-3-7-livestream-summary-release-date-banners-codes-everything-new-wuthering-waves" target="_blank" rel="noopener">Sportskeeda — WuWa 3.7 공식 방송 요약</a></li>
+      <li><a href="https://gurugamer.com/pc-console/wuthering-waves-3-7-stream-recap-hsin-suoming-and-the-xuanfang-finale-27321" target="_blank" rel="noopener">GuruGamer — 3.7 Stream Recap</a></li>
+      <li><a href="https://namu.wiki/w/%EB%AA%85%EC%A1%B0:%20%EC%9B%8C%EB%8D%94%EB%A7%81%20%EC%9B%A8%EC%9D%B4%EB%B8%8C/%EC%9D%BC%EC%A0%95" target="_blank" rel="noopener">나무위키 — 명조 워더링 웨이브/일정</a></li>
+      <li><a href="https://www.topuplive.com/news/wuwa-3-8-lily-leak.html" target="_blank" rel="noopener">TopUpLive — WuWa 3.8 Lily Leak</a></li>
+      <li><a href="https://www.mone.gg/blog/wuthering-waves/3-8-banner.html" target="_blank" rel="noopener">Mone.gg — Wuthering Waves 3.8 Banners Leak</a></li>
+      <li><a href="https://www.ldshop.gg/blog/wuthering-waves/wuthering-waves-3-8-banner.html" target="_blank" rel="noopener">LDShop — WuWa 3.8 Banners &amp; Leaks</a></li>
+      <li><a href="https://bbs.ruliweb.com/community/board/300143/read/76630304" target="_blank" rel="noopener">루리웹 — 명조유출 3.8 픽업캐 유출이미지</a></li>
+      <li><a href="https://x.com/WuWa_Nexus/status/2095033846102360461" target="_blank" rel="noopener">X(@WuWa_Nexus) — 시싱/프랙트시더스 유출</a></li>
+      <li><a href="https://x.com/wuwaguy/status/2100403698207957144" target="_blank" rel="noopener">X(@wuwaguy) — 히유키 스킨 유출</a></li>
+      <li><a href="https://namu.wiki/w/%EC%8B%A0%20%EC%97%B0%EB%B0%A9" target="_blank" rel="noopener">나무위키 — 신 연방</a></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+(function(){
+  try {
+    var target = new Date("2026-09-30T00:00:00+09:00").getTime();
+    var now = Date.now();
+    var days = Math.ceil((target - now) / 86400000);
+    var el = document.getElementById("dday");
+    if (el) el.textContent = days > 0 ? ("D-" + days) : (days === 0 ? "D-DAY" : "출시됨");
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
